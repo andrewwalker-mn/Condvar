@@ -692,3 +692,23 @@ int uthread_decrease_priority(int tid)
 
         return SUCCESS;
 }
+
+
+///////////For testing purposes
+void printReadyQueues() {
+  // for (int pr=0; pr<3; pr++) {
+    // cout << pr << endl;
+    // for (vector<TCB*>::iterator iter = ready[pr].begin(); iter != ready[pr].end(); ++iter) {
+      // cout << ready[pr].at(iter) << endl;
+    // }
+  // }
+}
+    // int pr = i;
+    // TCB* cur = ready[pr];
+    // cout << i << endl;
+    // while (!cur.empty()) {
+      // cout << cur.begin() << endl;
+      // cur.erase(cur.begin());
+    // }
+  // }
+// }

@@ -17,8 +17,9 @@ void Lock::lock() {
   }
   else {
     lockQueue.push(running);
-    enableInterrupts();
-    uthread_suspend(running->getId());
+    switchThreads();
+    // switchToThread(lockQueue.front());
+    // uthread_suspend(running->getId()); //suspend or switch?
   }
   enableInterrupts();
 }
@@ -27,18 +28,29 @@ void Lock::unlock() {
   disableInterrupts();
   _unlock();
   enableInterrupts();
+  return;
 }
 
 void Lock::_unlock() {
   lockQueue.pop();
   if (savedSignal) {
-    uthread_resume(savedSignal->getId());
+    TCB* temp = savedSignal;
+    savedSignal = nullptr;
+    addToReady(temp);
+    // switchToThread(temp);
+    // uthread_resume(savedSignal->getId());
   }
   if (!lockQueue.empty()) {
-    uthread_resume(lockQueue.front()->getId());
+    addToReady(lockQueue.front());
+    // switchToThread(lockQueue.front());
+    // uthread_resume(lockQueue.front()->getId());
   }
+  return;
 }
 
 void Lock::_signal(TCB *tcb) {
+  savedSignal = tcb;
   return;
 }
+
+
