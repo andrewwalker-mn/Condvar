@@ -11,7 +11,7 @@ using namespace std;
 static Lock test_lock;
 
 void* tester(void *arg) {
-  test_lock.lock();
+  // test_lock.lock();
   for (int i=0; i<1000000; i++) {
     if (i%100000 == 0) {
       cout << i/100000;
@@ -23,7 +23,7 @@ void* tester(void *arg) {
     }
   }
   cout << endl;
-  test_lock.unlock();
+  // test_lock.unlock();
   return nullptr;
 }
 

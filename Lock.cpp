@@ -4,6 +4,9 @@
 using namespace std;
 // TODO
 
+#define BUSY 1
+#define FREE 0
+
 Lock::Lock() {
 }
 
@@ -12,12 +15,14 @@ Lock::~Lock() {
 
 void Lock::lock() {
   disableInterrupts();
-  if (lockQueue.empty()) {
-    lockQueue.push(running);
+  if (value == FREE) {
+    value = BUSY;
   }
   else {
     lockQueue.push(running);
-    switchThreads();
+    // change status to waiting? remove from ready?
+    switchThreads(); 
+    // addToReady(running);
     // switchToThread(lockQueue.front());
     // uthread_suspend(running->getId()); //suspend or switch?
   }
@@ -32,19 +37,31 @@ void Lock::unlock() {
 }
 
 void Lock::_unlock() {
-  lockQueue.pop();
   if (savedSignal) {
     TCB* temp = savedSignal;
     savedSignal = nullptr;
     addToReady(temp);
+  }
+  else if (!lockQueue.empty()) {
+    TCB *next = lockQueue.front();
+    lockQueue.pop();
+    // next->setState
+    addToReady(next);
+  }
+  else {
+    value = FREE;
+  }
+  // if (savedSignal) {
+    // TCB* temp = savedSignal;
+    // savedSignal = nullptr;
+    // addToReady(temp);
     // switchToThread(temp);
     // uthread_resume(savedSignal->getId());
-  }
-  if (!lockQueue.empty()) {
-    addToReady(lockQueue.front());
+  // }
+  // if (!lockQueue.empty()) {
+    // addToReady(lockQueue.front());
     // switchToThread(lockQueue.front());
     // uthread_resume(lockQueue.front()->getId());
-  }
   return;
 }
 

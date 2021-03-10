@@ -22,6 +22,8 @@ private:
   // TODO - Add members as needed
   queue<TCB*> lockQueue;
   TCB* savedSignal;
+  int value;
+  
 
   // Unlock the lock while interrupts have already been disabled
   // NOTE: Assumes interrupts are disabled
