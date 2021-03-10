@@ -27,12 +27,14 @@ public:
   // thread)
   void broadcast();
 
-  void setLock(Lock &lock);
+  void setLock(Lock* lock);
+
+  int getWaiting();
 
 private:
   // TODO - Add members as needed
   queue<TCB*> _waiting;
-  Lock _lock;
+  Lock* _lock;
 };
 
 #endif // COND_VAR_H

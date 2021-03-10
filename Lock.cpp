@@ -21,7 +21,7 @@ void Lock::lock() {
   else {
     lockQueue.push(running);
     // change status to waiting? remove from ready?
-    switchThreads(); 
+    switchThreads();
     // addToReady(running);
     // switchToThread(lockQueue.front());
     // uthread_suspend(running->getId()); //suspend or switch?
@@ -40,13 +40,17 @@ void Lock::_unlock() {
   if (savedSignal) {
     TCB* temp = savedSignal;
     savedSignal = nullptr;
-    addToReady(temp);
+    // addToReady(temp);
+    cout << "unlocking and returning control to " << temp->getId() << endl;
+    addToReady(running);
+    switchToThread(temp);
   }
   else if (!lockQueue.empty()) {
     TCB *next = lockQueue.front();
     lockQueue.pop();
     // next->setState
     addToReady(next);
+    // switchToThread(next);
   }
   else {
     value = FREE;
@@ -66,8 +70,8 @@ void Lock::_unlock() {
 }
 
 void Lock::_signal(TCB *tcb) {
+  // disableInterrupts();
   savedSignal = tcb;
+  // enableInterrupts();
   return;
 }
-
-

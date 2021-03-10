@@ -6,14 +6,16 @@ CondVar::CondVar() {
 }
 
 void CondVar::wait(Lock &lock) {
-  setLock(lock);
   disableInterrupts();
+  setLock(&lock);
   lock._unlock();
   _waiting.push(running);
   running->setState(BLOCK);
+  cout << running->getId() << " start waiting" << endl;
   switchThreads();
+  cout << running->getId() << " finished waiting" << endl;
   enableInterrupts();
-  lock.lock();
+  // lock.lock();
 }
 
 void CondVar::signal() {
@@ -21,12 +23,16 @@ void CondVar::signal() {
     disableInterrupts();
     TCB *next = _waiting.front();
     _waiting.pop();
-    _lock._unlock();
-    _lock._signal(running);
+    // cout << "size of waiting is: " << _waiting.size() << endl;
+    // cout << next->getId() << endl;
+    // _lock->_unlock();
+    _lock->_signal(running);
+    cout << "signalled, switching to thread " << next->getId() << endl;
     switchToThread(next);
     enableInterrupts();
-    _lock.lock();
+    // _lock->lock();
   }
+  // _lock->_unlock();
 }
 
 void CondVar::broadcast() {
@@ -34,16 +40,20 @@ void CondVar::broadcast() {
     disableInterrupts();
     TCB *next = _waiting.front();
     _waiting.pop();
-    _lock._unlock();
-    _lock._signal(running);
+    _lock->unlock();
+    _lock->_signal(running);
     switchToThread(next); // we move this to _signal?
     enableInterrupts();
-    _lock.lock();
+    _lock->lock();
   }
 }
 
-void CondVar::setLock(Lock &lock) {
+void CondVar::setLock(Lock* lock) {
   _lock = lock;
 }
+
+int CondVar::getWaiting() {
+    return _waiting.size();
+  }
 
 // TODO

@@ -7,7 +7,7 @@
 
 using namespace std;
 
-#define UTHREAD_TIME_QUANTUM 10000
+#define UTHREAD_TIME_QUANTUM 100000
 #define SHARED_BUFFER_SIZE 10
 #define PRINT_FREQUENCY 100000
 #define RANDOM_YIELD_PERCENT 50
@@ -58,8 +58,9 @@ void* producer(void *arg) {
     // Wait for room in the buffer if needed
     // NOTE: Assuming Hoare semantics
     if (item_count == SHARED_BUFFER_SIZE) {
-      cout << "producer needs to wait" << endl;
+      // cout << "producer needs to wait" << endl;
       need_space_cv.wait(buffer_lock);
+      // cout << "producer finished wait" << endl;
     }
 
     // Make sure synchronization is working correctly
@@ -73,16 +74,19 @@ void* producer(void *arg) {
     item_count++;
     produced_count++;
 
-    cout << "producer produced and there is " << item_count << " item count" << endl;
+    cout << "producer produced and there is " << item_count << " item count, signalling consumers" << endl;
 
     // Signal that there is now an item in the buffer
     need_item_cv.signal();
+
+    cout << "got past producer signal, unlocking" << endl;
 
     producer_in_critical_section = false;
     buffer_lock.unlock();
 
     // Randomly give another thread a chance
     if ((rand() % 100) < RANDOM_YIELD_PERCENT) {
+      cout << "randomly yielding" << endl;
       uthread_yield();
     }
   }
@@ -96,8 +100,9 @@ void* consumer(void *arg) {
     // Wait for an item in the buffer if needed
     // NOTE: Assuming Hoare semantics
     if (item_count == 0) {
-      cout << "consumer waiting" << endl;
+      // cout << "consumer waiting" << endl;
       need_item_cv.wait(buffer_lock);
+      // cout << "consumer finished waiting" << endl;
     }
 
     // Make sure synchronization is working correctly
@@ -111,8 +116,7 @@ void* consumer(void *arg) {
     item_count--;
     consumed_count++;
 
-    cout << "consumer ate and there is " << item_count << " item count" << endl;
-
+    cout << "consumer ate and there is " << item_count << " item count, signalling producers" << endl;
 
     // Print an update periodically
     if ((consumed_count % PRINT_FREQUENCY) == 0) {
@@ -122,6 +126,7 @@ void* consumer(void *arg) {
     // Signal that there is now room in the buffer
     need_space_cv.signal();
 
+    cout << "got past consumer signal, unlocking" << endl;
     consumer_in_critical_section = false;
     buffer_lock.unlock();
 
