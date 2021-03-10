@@ -58,6 +58,7 @@ void* producer(void *arg) {
     // Wait for room in the buffer if needed
     // NOTE: Assuming Hoare semantics
     if (item_count == SHARED_BUFFER_SIZE) {
+      cout << "producer needs to wait" << endl;
       need_space_cv.wait(buffer_lock);
     }
 
@@ -71,6 +72,8 @@ void* producer(void *arg) {
     head = (head + 1) % SHARED_BUFFER_SIZE;
     item_count++;
     produced_count++;
+
+    cout << "producer produced and there is " << item_count << " item count" << endl;
 
     // Signal that there is now an item in the buffer
     need_item_cv.signal();
@@ -90,10 +93,10 @@ void* producer(void *arg) {
 void* consumer(void *arg) {
   while (true) {
     buffer_lock.lock();
-
     // Wait for an item in the buffer if needed
     // NOTE: Assuming Hoare semantics
     if (item_count == 0) {
+      cout << "consumer waiting" << endl;
       need_item_cv.wait(buffer_lock);
     }
 
@@ -107,6 +110,9 @@ void* consumer(void *arg) {
     tail = (tail + 1) % SHARED_BUFFER_SIZE;
     item_count--;
     consumed_count++;
+
+    cout << "consumer ate and there is " << item_count << " item count" << endl;
+
 
     // Print an update periodically
     if ((consumed_count % PRINT_FREQUENCY) == 0) {

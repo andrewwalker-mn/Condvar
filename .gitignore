@@ -1,1 +1,3 @@
 *.o
+uthread-sync-demo
+locktest
