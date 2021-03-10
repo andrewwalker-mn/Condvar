@@ -4,6 +4,8 @@
 #include "TCB.h"
 #include <queue>
 
+using namespace std;
+
 // Synchronization lock
 class Lock {
 public:
@@ -19,7 +21,9 @@ public:
 
 private:
   // TODO - Add members as needed
-
+  queue<TCB*> lockQueue;
+  TCB* savedSignal;
+	  
   // Unlock the lock while interrupts have already been disabled
   // NOTE: Assumes interrupts are disabled
   void _unlock();
