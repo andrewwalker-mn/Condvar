@@ -6,10 +6,10 @@ using namespace std;
 
 Lock::Lock() {
 }
- 
+
 Lock::~Lock() {
 }
- 
+
 void Lock::lock() {
   disableInterrupts();
   if (lockQueue.empty()) {
@@ -17,6 +17,7 @@ void Lock::lock() {
   }
   else {
     lockQueue.push(running);
+    enableInterrupts();
     uthread_suspend(running->getId());
   }
   enableInterrupts();
@@ -36,4 +37,8 @@ void Lock::_unlock() {
   if (!lockQueue.empty()) {
     uthread_resume(lockQueue.front()->getId());
   }
+}
+
+void Lock::_signal(TCB *tcb) {
+  return;
 }

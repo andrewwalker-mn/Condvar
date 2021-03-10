@@ -407,6 +407,7 @@ int uthread_init(int quantum_usecs)
 	mainTh->increaseQuantum();
 	_quantum_counter++;
 	setTime();
+
 	return SUCCESS;
 }
 

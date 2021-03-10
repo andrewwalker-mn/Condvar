@@ -10,7 +10,7 @@ using namespace std;
 class Lock {
 public:
   Lock();
-
+  ~Lock();
   // Attempt to acquire lock. Grab lock if available, otherwise thread is
   // blocked until the lock becomes available
   void lock();
@@ -18,12 +18,11 @@ public:
   // Unlock the lock. Wake up a blocked thread if any is waiting to acquire the
   // lock and hand off the lock
   void unlock();
-
 private:
   // TODO - Add members as needed
   queue<TCB*> lockQueue;
   TCB* savedSignal;
-	  
+
   // Unlock the lock while interrupts have already been disabled
   // NOTE: Assumes interrupts are disabled
   void _unlock();
