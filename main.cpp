@@ -74,19 +74,19 @@ void* producer(void *arg) {
     item_count++;
     produced_count++;
 
-    cout << "producer produced and there is " << item_count << " item count, signalling consumers" << endl;
+    // cout << "producer produced and there is " << item_count << " item count, signalling consumers" << endl;
 
     // Signal that there is now an item in the buffer
     need_item_cv.signal();
 
-    cout << "got past producer signal, unlocking" << endl;
+    // cout << "got past producer signal, unlocking" << endl;
 
     producer_in_critical_section = false;
     buffer_lock.unlock();
 
     // Randomly give another thread a chance
     if ((rand() % 100) < RANDOM_YIELD_PERCENT) {
-      cout << "randomly yielding" << endl;
+      // cout << "randomly yielding" << endl;
       uthread_yield();
     }
   }
@@ -116,7 +116,7 @@ void* consumer(void *arg) {
     item_count--;
     consumed_count++;
 
-    cout << "consumer ate and there is " << item_count << " item count, signalling producers" << endl;
+    // cout << "consumer ate and there is " << item_count << " item count, signalling producers" << endl;
 
     // Print an update periodically
     if ((consumed_count % PRINT_FREQUENCY) == 0) {
@@ -126,7 +126,7 @@ void* consumer(void *arg) {
     // Signal that there is now room in the buffer
     need_space_cv.signal();
 
-    cout << "got past consumer signal, unlocking" << endl;
+    // cout << "got past consumer signal, unlocking" << endl;
     consumer_in_critical_section = false;
     buffer_lock.unlock();
 

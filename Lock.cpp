@@ -41,7 +41,7 @@ void Lock::_unlock() {
     TCB* temp = savedSignal;
     savedSignal = nullptr;
     // addToReady(temp);
-    cout << "unlocking and returning control to " << temp->getId() << endl;
+    // cout << "unlocking and returning control to " << temp->getId() << endl;
     addToReady(running);
     switchToThread(temp);
   }

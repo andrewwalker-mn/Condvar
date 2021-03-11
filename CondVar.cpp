@@ -11,9 +11,9 @@ void CondVar::wait(Lock &lock) {
   lock._unlock();
   _waiting.push(running);
   running->setState(BLOCK);
-  cout << running->getId() << " start waiting" << endl;
+  // cout << running->getId() << " start waiting" << endl;
   switchThreads();
-  cout << running->getId() << " finished waiting" << endl;
+  // cout << running->getId() << " finished waiting" << endl;
   enableInterrupts();
   // lock.lock();
 }
@@ -27,7 +27,7 @@ void CondVar::signal() {
     // cout << next->getId() << endl;
     // _lock->_unlock();
     _lock->_signal(running);
-    cout << "signalled, switching to thread " << next->getId() << endl;
+    // cout << "signalled, switching to thread " << next->getId() << endl;
     switchToThread(next);
     enableInterrupts();
     // _lock->lock();
@@ -40,11 +40,11 @@ void CondVar::broadcast() {
     disableInterrupts();
     TCB *next = _waiting.front();
     _waiting.pop();
-    _lock->unlock();
+    // _lock->unlock();
     _lock->_signal(running);
-    switchToThread(next); // we move this to _signal?
+    switchToThread(next);
     enableInterrupts();
-    _lock->lock();
+    // _lock->lock();
   }
 }
 

@@ -326,7 +326,7 @@ void switchThreads()
 {
 	TCB *next = popReady();
 	assert(next);
-  cout << "switching to " << next->getId() << endl;
+  // cout << "switching to " << next->getId() << endl;
 	switchToThread(next);
 }
 
