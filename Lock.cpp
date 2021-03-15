@@ -8,6 +8,7 @@ using namespace std;
 #define FREE 0
 
 Lock::Lock() {
+  value = FREE;
 }
 
 Lock::~Lock() {

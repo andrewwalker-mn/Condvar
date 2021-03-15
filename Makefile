@@ -5,6 +5,7 @@ OBJ = TCB.o uthread.o Lock.o CondVar.o SpinLock.o async_io.o
 MAIN_OBJ = main.o
 TESTLOCK = TCB.o uthread.o Lock.o testLock.o
 BROADCAST = broadcasttest.o
+TESTSPIN = TCB.o uthread.o SpinLock.o testSpin.o
 
 %.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS) 
@@ -20,7 +21,10 @@ broadcasttest: $(BROADCAST) $(OBJ)
 locktest: $(TESTLOCK)
 	$(CC) -o $@ $^ $(CFLAGS) 
 
+spintest: $(TESTSPIN)
+	$(CC) -o $@ $^ $(CFLAGS)
+
 .PHONY: clean
 
 clean:
-	rm -f *.o uthread-sync-demo locktest
+	rm -f *.o uthread-sync-demo locktest spintest
