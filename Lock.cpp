@@ -17,6 +17,7 @@ Lock::~Lock() {
 void Lock::lock() {
   disableInterrupts();
   if (value == FREE) {
+    running->increaseLockCount();
     value = BUSY;
   }
   else {
@@ -41,6 +42,9 @@ void Lock::_unlock() {
   if (savedSignal) {
     TCB* temp = savedSignal;
     savedSignal = nullptr;
+    running->decreaseLockCount();
+    temp->increaseLockCount();
+
     // addToReady(temp);
     // cout << "unlocking and returning control to " << temp->getId() << endl;
     addToReady(running);
@@ -48,12 +52,15 @@ void Lock::_unlock() {
   }
   else if (!lockQueue.empty()) {
     TCB *next = lockQueue.front();
+    running->decreaseLockCount();
+    next->increaseLockCount();
     lockQueue.pop();
     // next->setState
     addToReady(next);
     // switchToThread(next);
   }
   else {
+    running->decreaseLockCount();
     value = FREE;
   }
   // if (savedSignal) {

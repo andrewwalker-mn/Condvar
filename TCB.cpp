@@ -25,6 +25,7 @@ TCB::TCB(int tid, Priority pr, void *(*start_routine)(void* arg), void *arg, Sta
                 // Set the context to call the stub
                 makecontext(&_context, (void(*)())stub, 2, start_routine, arg);
         }
+      _lock_count = 0;
 }
 
 TCB::~TCB()

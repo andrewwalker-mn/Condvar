@@ -27,6 +27,8 @@ void CondVar::signal() {
     // cout << next->getId() << endl;
     // _lock->_unlock();
     _lock->_signal(running);
+    running->decreaseLockCount();
+    next->increaseLockCount();
     // cout << "signalled, switching to thread " << next->getId() << endl;
     switchToThread(next);
     enableInterrupts();

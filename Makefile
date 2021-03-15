@@ -7,6 +7,7 @@ TESTLOCK = TCB.o uthread.o Lock.o testLock.o
 BROADCAST = broadcasttest.o
 ASYNC = asynctest.o
 TESTSPIN = TCB.o uthread.o SpinLock.o testSpin.o
+TESTPRIO = priotest.o
 
 %.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -14,7 +15,7 @@ TESTSPIN = TCB.o uthread.o SpinLock.o testSpin.o
 uthread-sync-demo: $(OBJ) $(MAIN_OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
-alltests: locktest broadcasttest
+alltests: locktest broadcasttest asynctest spintest priotest
 
 broadcasttest: $(BROADCAST) $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
@@ -22,10 +23,13 @@ broadcasttest: $(BROADCAST) $(OBJ)
 locktest: $(TESTLOCK)
 	$(CC) -o $@ $^ $(CFLAGS)
 
-asynctest: $(ASYNC) $(OBJ)
+asynctest: $(OBJ) $(ASYNC)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 spintest: $(TESTSPIN)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+priotest: $(OBJ) $(TESTPRIO)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 .PHONY: clean

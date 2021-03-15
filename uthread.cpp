@@ -54,6 +54,8 @@ static TCB* popReady();
 static void _uthread_increase_priority(TCB *tcb);
 static void _uthread_decrease_priority(TCB *tcb);
 
+static int prio_timer;
+
 /**
  * function responsable for printing each kind of error
  */
@@ -326,6 +328,7 @@ void switchThreads()
 {
 	TCB *next = popReady();
 	assert(next);
+  // cout << "switchthreads called" << endl;
   // cout << "switching to " << next->getId() << endl;
 	switchToThread(next);
 }
@@ -345,11 +348,46 @@ void enableInterrupts()
 	sigprocmask(SIG_UNBLOCK,&_sigAction.sa_mask, NULL);
 }
 
+void priority_boost() {
+  cout << "boosting prios" << endl;
+  disableInterrupts();
+  for (vector<TCB*>::iterator iter = ready[ORANGE].begin(); iter != ready[ORANGE].end(); ++iter)
+  {
+    TCB* tcb = *iter;
+    if(tcb != nullptr) {
+      // cout << "asdf" << endl;
+      if (tcb->getLockCount() > 0) {
+        _uthread_increase_priority(tcb);
+        break;
+      }
+    }
+  }
+  // cout << "starting green" << endl;
+  for (vector<TCB*>::iterator iter = ready[GREEN].begin(); iter != ready[GREEN].end(); ++iter)
+  {
+    TCB* tcb = *iter;
+    if(tcb != nullptr) {
+      // cout << tcb->getLockCount() << endl;
+      if (tcb->getLockCount() > 0) {
+        // cout << "got here too" <<endl;
+        _uthread_increase_priority(tcb);
+        break;
+      }
+    }
+  }
+  enableInterrupts();
+}
+
 /**
  * switch between running thread and the this thread
  */
 static void timeHandler(int signum)
 {
+        prio_timer++;
+        if(prio_timer == 20) {
+          prio_timer = 0;
+          priority_boost();
+        }
         uthread_yield();
 }
 
@@ -369,6 +407,7 @@ void stub(void *(*start_routine)(void *), void *arg)
 /* Initialize the thread library */
 int uthread_init(int quantum_usecs)
 {
+
 	if (quantum_usecs <= 0)
 	{
 		printError(WRONG_INPUT ,THREAD_ERROR);
@@ -408,6 +447,8 @@ int uthread_init(int quantum_usecs)
 	mainTh->increaseQuantum();
 	_quantum_counter++;
 	setTime();
+
+
 
 	return SUCCESS;
 }
@@ -623,6 +664,7 @@ int uthread_get_quantums(int tid)
 static void _uthread_increase_priority(TCB *tcb)
 {
         // Remove the thread from the ready queue if it is there
+
         int in_ready_queue = removeFromReady(tcb->getId());
 
         // Increase the thread's priority by one
@@ -632,6 +674,7 @@ static void _uthread_increase_priority(TCB *tcb)
         if (in_ready_queue == SUCCESS)
         {
                 addToReady(tcb);
+        // cout << "prio increased" << endl;
         }
 }
 

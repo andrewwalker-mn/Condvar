@@ -3,3 +3,4 @@ uthread-sync-demo
 locktest
 asynctest
 outfile.txt
+priotest

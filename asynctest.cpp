@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define UTHREAD_TIME_QUANTUM 1000
+#define UTHREAD_TIME_QUANTUM 10000
 
 void* tester(void *arg) {
   for (int i=0; i<2000000; i++) {
