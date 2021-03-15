@@ -1,12 +1,11 @@
 #include "uthread.h"
-#include "Lock.h"
 #include <math.h>
 #include "uthread_private.h"
+#include "SpinLock.h"
 
 using namespace std;
 
-// Shared buffer synchronization
-static Lock test_lock;
+static SpinLock test_lock;
 
 void* tester(void *arg) {
   test_lock.lock();
