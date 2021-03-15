@@ -5,9 +5,10 @@ OBJ = TCB.o uthread.o Lock.o CondVar.o SpinLock.o async_io.o
 MAIN_OBJ = main.o
 TESTLOCK = TCB.o uthread.o Lock.o testLock.o
 BROADCAST = broadcasttest.o
+ASYNC = asynctest.o
 
 %.o: %.cpp $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS) 
+	$(CC) -c -o $@ $< $(CFLAGS)
 
 uthread-sync-demo: $(OBJ) $(MAIN_OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
@@ -18,7 +19,10 @@ broadcasttest: $(BROADCAST) $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 locktest: $(TESTLOCK)
-	$(CC) -o $@ $^ $(CFLAGS) 
+	$(CC) -o $@ $^ $(CFLAGS)
+
+asynctest: $(ASYNC) $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
 
 .PHONY: clean
 
