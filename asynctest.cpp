@@ -8,12 +8,12 @@
 
 using namespace std;
 
-#define UTHREAD_TIME_QUANTUM 10000
+#define UTHREAD_TIME_QUANTUM 1000
 
 void* tester(void *arg) {
-  for (int i=0; i<10000000; i++) {
+  for (int i=0; i<2000000; i++) {
     if (i%100000 == 0) {
-      cout << i/100000;
+      cout << i/100000 << " ";
     }
     else
     {
@@ -30,12 +30,12 @@ void * reads(void * arg) {
   FILE * file1 = fopen("infile.txt", "r");
   int fd = fileno(file1);
 
-  char read_to[5];
-  size_t length = 5;
+  char read_to[10000];
+  size_t length = 10000;
 
   ssize_t ret = async_read(fd, read_to, length, 0);
   fclose(file1);
-  cout << read_to << " was read in " << endl;
+  // cout << read_to << " was read in " << endl;
 
   return nullptr;
 }

@@ -34,8 +34,10 @@ ssize_t async_read(int fd, void *buf, size_t count, int offset) {
   int error;
 
   while ((error = aio_error(&aiocb)) == EINPROGRESS){
+      cout << "not done reading yet, yielding" << endl;
       uthread_yield();
   };
+  cout << "finished reading" << endl;
 
   error = aio_error(&aiocb);
   ssize_t returned = aio_return(&aiocb);
@@ -67,7 +69,7 @@ ssize_t async_write(int fd, void *buf, size_t count, int offset) {
   int error;
 
   while ((error = aio_error(&aiocb)) == EINPROGRESS){
-    cout << "not done yet, yielding" << endl;
+    cout << "not done writing yet, yielding" << endl;
     uthread_yield();
   };
   cout << "finished writing" << endl;
