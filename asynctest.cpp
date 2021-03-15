@@ -30,8 +30,8 @@ void * reads(void * arg) {
   FILE * file1 = fopen("infile.txt", "r");
   int fd = fileno(file1);
 
-  char read_to[10000];
-  size_t length = 10000;
+  char read_to[10];
+  size_t length = 10;
 
   ssize_t ret = async_read(fd, read_to, length, 0);
   fclose(file1);
