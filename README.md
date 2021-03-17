@@ -37,3 +37,6 @@ We chose to implement priority boosting, which periodically boosts the priority 
 ### Testing
 The test file is priotest.cpp, which compiles into ./priotest. 
 The test runs three threads, each with their own respective functions. They're split into the three priorities - high, normal, and low. The first thread is low priority, but it also acquires the lock first, which means that it prevents the high priority thread from running. The test uses printouts to show which thread is running at any given point in time. Notice that without priority boosting (which can be simulated by commenting out the priority_boost function call in timeHandler() in uthread.cpp), the low priority thread must wait for the normal priority thread to finish before it can finish, which means that the high priority thread finishes only after both the normal and low priority threads have finished. With priority boosting, the low thread gets to finish before the normal thread, which means the high priority thread gets to finish faster as well. 
+
+## Other Requested Performance Evaluation Results:
+These are located in the writeup.pdf file provided.
