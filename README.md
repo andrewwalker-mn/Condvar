@@ -28,6 +28,9 @@ Testing spinlocks is a little pointless as it relates to the uthread library, bu
 ### ./priotest
 Tests priority inversion; see description below.
 
+### ./asynctest
+Source code given in testAsyncBetter.cpp. Tests Asynchronous I/O, specifically the functions async_read() and async_write(). It runs three threads: a reading thread, a writing thread, and a normal thread. The reading and writing threads respectively call async_read() and async_write() and run first, and then the normal one prints numbers. The reading and writing threads show printouts after reading and writing is finished, and we can see that said printouts appear after the normal thread has already gotten some work done. Because the writing thread is writing more, it finishes after the normal thread has gotten more work done.
+
 # Performance Evaluation
 The performance evaluations, tests, and write-ups for **Lock vs SpinLock** and **Synchronous vs Asynchronous I/O** can be found in the file writeup.pdf.
 
