@@ -23,7 +23,7 @@ This is the given demo file, and shows functionalities of Lock, as well as Condv
 
 ### ./spintest
 Source code given in testSpinBetter.cpp.
-Testing spinlocks is a little pointless as it relates to the uthread library, but the file tests the functionalities of a SpinLock. Given uthread, the test is very similar to locktest, demonstrating the same code with spinlocks and without spinlocks. Each thread simply prints their ID's and some numbers. The first printouts - without locks - clearly show less organization, while once locks are included the printouts print neatly. 
+Testing spinlocks is a little pointless in this environment, so the test is very similar to locktest; it demonstrates the same code with spinlocks and without spinlocks. Each thread simply prints their ID's and some numbers. The first printouts - without locks - clearly show less organization, while once locks are included the printouts print neatly. 
 
 ### ./priotest
 Tests priority inversion; see description below.
