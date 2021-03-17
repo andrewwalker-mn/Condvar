@@ -26,7 +26,7 @@ using namespace std;
   // }
   // cout << endl;
   // return nullptr;
-}
+// }
 
 void * reads(void * arg) {
   FILE * file1 = fopen("infile.txt", "r");
