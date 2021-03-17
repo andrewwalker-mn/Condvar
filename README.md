@@ -5,7 +5,7 @@ A simple make command compiles everything, as does 'make alltests'. From there, 
 
 We have 3 tests: locktest, broadcasttest, and the provided uthread-sync-demo-solution.
 
-## Tests:
+# Tests:
 ### ./locktest
 Source code in testLock.cpp.
 This test shows functionality of locks. If you comment out lines 12, 25, 26, and 39 (lock and unlock), you will notice the threads run at the same time. 
@@ -21,6 +21,9 @@ Source code given in main.cpp.
 This is the given demo file, and shows functionality of Lock, as well as Broadcast wait and signal. As described, it has certain threads that produce input into a bounded buffer
 and certain threads that consume said input. The synchronicity is to make sure that none of the buffer invariants are violated; we see that the program can run for an indefinite 
 amount of time, which means that everything is working. 
+
+# Performance Evaluation
+The performance evaluations and write-ups for **Lock vs SpinLock** and **Synchronous vs Asynchronous I/O** can be found in the file writeup.pdf.
 
 ## Priority Inversion:
 ### Implementation
