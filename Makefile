@@ -6,6 +6,7 @@ MAIN_OBJ = main.o
 TESTLOCK = TCB.o uthread.o Lock.o testLockBetter.o
 BROADCAST = broadcasttest.o
 ASYNC = testAsyncBetter.o
+ASYNCPERFORMANCE = asynctest.o
 NONASYNC = nonasynctest.o
 TESTSPIN = TCB.o uthread.o SpinLock.o testSpinBetter.o
 TESTCONTROL = TCB.o uthread.o testControl.o
@@ -17,6 +18,8 @@ SASYNC = sAsyncTest.o
 SNONASYNC = sNonAsyncTest.o
 TASYNC = tAsyncTest.o
 TNONASYNC = tNonAsyncTest.o
+TASYNCMW = tAsyncTestMoreWork.o
+TNONASYNCMW = tNonAsyncTestMoreWork.o
 
 %.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -24,7 +27,7 @@ TNONASYNC = tNonAsyncTest.o
 uthread-sync-demo: $(OBJ) $(MAIN_OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
-alltests: locktest broadcasttest asynctest spintest priotest controltest sControlTest sLockTest sSpinTest sAsyncTest sNonAsyncTest tAsyncTest tNonAsyncTest
+alltests: locktest broadcasttest asynctest spintest priotest controltest sControlTest sLockTest sSpinTest sAsyncTest sNonAsyncTest tAsyncTest tNonAsyncTest asyncTestPerformance tNonAsyncTestMoreWork tAsyncTestMoreWork
 
 broadcasttest: $(BROADCAST) $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
@@ -33,6 +36,9 @@ locktest: $(TESTLOCK)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 asynctest: $(OBJ) $(ASYNC)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+asyncTestPerformance: $(OBJ) $(ASYNCPERFORMANCE)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 nonasynctest: $(OBJ) $(NONASYNC)
@@ -67,8 +73,14 @@ tNonAsyncTest: $(OBJ) $(TNONASYNC)
 
 tAsyncTest: $(OBJ) $(TASYNC)
 	$(CC) -o $@ $^ $(CFLAGS)
+	
+tAsyncTestMoreWork: $(OBJ) $(TASYNCMW)
+	$(CC) -o $@ $^ $(CFLAGS)
+	
+tNonAsyncTestMoreWork: $(OBJ) $(TNONASYNCMW)
+	$(CC) -o $@ $^ $(CFLAGS)
 
 .PHONY: clean
 
 clean:
-	rm -f *.o uthread-sync-demo locktest spintest priotest controltest sControlTest sLockTest sSpinTest sAsyncTest sNonAsyncTest tAsyncTest tNonAsyncTest
+	rm -f *.o uthread-sync-demo locktest spintest priotest controltest sControlTest sLockTest sSpinTest sAsyncTest sNonAsyncTest tAsyncTest tNonAsyncTest asyncTestPerformance tNonAsyncTestMoreWork tAsyncTestMoreWork

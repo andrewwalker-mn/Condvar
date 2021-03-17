@@ -19,3 +19,6 @@ sNonAsyncTest
 tAsyncTest
 tNonAsyncTest
 outfiles/outfile*
+asyncTestPerformance
+tAsyncTestMoreWork
+tNonAsyncTestMoreWork
