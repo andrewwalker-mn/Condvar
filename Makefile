@@ -13,6 +13,10 @@ TESTPRIO = priotest.o
 TESTSLOCK = TCB.o uthread.o Lock.o shortTestLock.o
 TESTSSPIN = TCB.o uthread.o SpinLock.o shortTestSpin.o
 TESTSCONTROL = TCB.o uthread.o shortTestControl.o
+SASYNC = sAsyncTest.o
+SNONASYNC = sNonAsyncTest.o
+TASYNC = tAsyncTest.o
+TNONASYNC = tNonAsyncTest.o
 
 %.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -20,7 +24,7 @@ TESTSCONTROL = TCB.o uthread.o shortTestControl.o
 uthread-sync-demo: $(OBJ) $(MAIN_OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
-alltests: locktest broadcasttest asynctest spintest priotest controltest sControlTest sLockTest sSpinTest
+alltests: locktest broadcasttest asynctest spintest priotest controltest sControlTest sLockTest sSpinTest sAsyncTest sNonAsyncTest tAsyncTest tNonAsyncTest
 
 broadcasttest: $(BROADCAST) $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
@@ -51,8 +55,20 @@ sLockTest: $(OBJ) $(TESTSLOCK)
 
 sSpinTest: $(OBJ) $(TESTSSPIN)
 	$(CC) -o $@ $^ $(CFLAGS)
+	
+sAsyncTest: $(OBJ) $(SASYNC)
+	$(CC) -o $@ $^ $(CFLAGS)
+	
+sNonAsyncTest: $(OBJ) $(SNONASYNC)
+	$(CC) -o $@ $^ $(CFLAGS)
+	
+tNonAsyncTest: $(OBJ) $(TNONASYNC)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+tAsyncTest: $(OBJ) $(TASYNC)
+	$(CC) -o $@ $^ $(CFLAGS)
 
 .PHONY: clean
 
 clean:
-	rm -f *.o uthread-sync-demo locktest spintest priotest controltest sControlTest sLockTest sSpinTest
+	rm -f *.o uthread-sync-demo locktest spintest priotest controltest sControlTest sLockTest sSpinTest sAsyncTest sNonAsyncTest tAsyncTest tNonAsyncTest
