@@ -1,7 +1,7 @@
 **Names: David Ma (maxxx818) and Andrew Walker (walk0655)**
 
 # Running and Testing the Code:
-Call 'make' to compile the non-test code, as well as uthread-sync-demo. Call 'make alltests' to compile all the tests. From there, specific tests are specified below. Functionality tests are described here, while performance tests are described in writeup.pdf.
+Call 'make' to compile the non-test code, as well as uthread-sync-demo. Call 'make alltests' to compile all the tests (including performance) or 'make functionalitytests' to make just the functionality tests (excluding performance tests). From there, specific tests are specified below. Functionality tests are described here, while performance tests are described in writeup.pdf.
 
 # Functionality Tests:
 
