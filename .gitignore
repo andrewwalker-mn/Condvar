@@ -8,3 +8,8 @@ spintest
 asynctest
 outfile.txt
 priotest
+._project2.pdf
+controltest
+sControlTest
+sLockTest
+sSpinTest

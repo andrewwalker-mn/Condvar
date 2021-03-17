@@ -1,41 +1,30 @@
 #include "uthread.h"
+#include "Lock.h"
 #include <math.h>
 #include "uthread_private.h"
-#include "SpinLock.h"
 
 using namespace std;
 
-static SpinLock test_lock;
+// Shared buffer synchronization
+static Lock test_lock;
 
 void* tester(void *arg) {
-  test_lock.lock();
-  cout << running->getId() << "\t";
-  for (int i=0; i<3000000; i++) {
-    if (i%1000000 == 0) {
-      cout << i/1000000;
+  for (int j=0; j<300000; j++) {
+    test_lock.lock();
+    cout << running->getId() << "\t";
+    for (int i=0; i<3; i++) {
+      if (i%1 == 0) {
+        cout << i/1;
+      }
+      else
+      {
+        double j = pow(i,3.0);
+        j += j-pow(i,.7);
+      }
     }
-    else
-    {
-      double j = pow(i,3.0);
-      j += j-pow(i,.7);
-    }
+    cout << endl;
+    test_lock.unlock();
   }
-  cout << endl;
-  test_lock.unlock();
-  test_lock.lock();
-  cout << running->getId() << "\t";
-  for (int i=3000000; i<6000000; i++) {
-    if (i%1000000 == 0) {
-      cout << i/1000000;
-    }
-    else
-    {
-      double j = pow(i,3.0);
-      j += j-pow(i,.7);
-    }
-  }
-  cout << endl;
-  test_lock.unlock();
   return nullptr;
 }
 

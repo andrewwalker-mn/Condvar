@@ -1,14 +1,14 @@
 #include "uthread.h"
+// #include "Lock.h"
 #include <math.h>
 #include "uthread_private.h"
-#include "SpinLock.h"
 
 using namespace std;
 
-static SpinLock test_lock;
+// static Lock test_lock;
 
 void* tester(void *arg) {
-  test_lock.lock();
+  // test_lock.lock();
   cout << running->getId() << "\t";
   for (int i=0; i<3000000; i++) {
     if (i%1000000 == 0) {
@@ -21,8 +21,8 @@ void* tester(void *arg) {
     }
   }
   cout << endl;
-  test_lock.unlock();
-  test_lock.lock();
+  // test_lock.unlock();
+  // test_lock.lock();
   cout << running->getId() << "\t";
   for (int i=3000000; i<6000000; i++) {
     if (i%1000000 == 0) {
@@ -35,7 +35,7 @@ void* tester(void *arg) {
     }
   }
   cout << endl;
-  test_lock.unlock();
+  // test_lock.unlock();
   return nullptr;
 }
 

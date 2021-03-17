@@ -349,7 +349,7 @@ void enableInterrupts()
 }
 
 void priority_boost() {
-  cout << "boosting prios" << endl;
+  // cout << "boosting prios" << endl;
   disableInterrupts();
   for (vector<TCB*>::iterator iter = ready[ORANGE].begin(); iter != ready[ORANGE].end(); ++iter)
   {
