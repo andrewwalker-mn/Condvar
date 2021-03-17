@@ -18,4 +18,4 @@ sAsyncTest
 sNonAsyncTest
 tAsyncTest
 tNonAsyncTest
-outfile*
+outfiles/outfile*
