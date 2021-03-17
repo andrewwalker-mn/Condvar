@@ -44,6 +44,8 @@ void CondVar::broadcast() {
     _waiting.pop();
     // _lock->unlock();
     _lock->_signal(running);
+    running->decreaseLockCount();
+    next->increaseLockCount();
     switchToThread(next);
     enableInterrupts();
     // _lock->lock();
