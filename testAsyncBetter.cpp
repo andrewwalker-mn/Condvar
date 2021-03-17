@@ -35,7 +35,7 @@ void * reads(void * arg) {
 
   ssize_t ret = async_read(fd, read_to, length, 0);
   fclose(file1);
-  cout << read_to << " was read in " << endl;
+  cout << "finished reading" << endl;
 
   return nullptr;
 }
@@ -53,6 +53,7 @@ void * writes(void * arg) {
 
   ssize_t ret = async_write(fd, &write_from[0], length, 0);
   fclose(file2);
+  cout << "finished writing" << endl;
 
   return nullptr;
 }
