@@ -5,25 +5,31 @@ A simple make command compiles everything, as does 'make alltests'. From there, 
 
 We have 3 tests: locktest, broadcasttest, and the provided uthread-sync-demo-solution.
 
-# Tests:
+# Functionality Tests:
+Performance tests are described further down in the README.
+
 ### ./locktest
-Source code in testLock.cpp.
-This test shows functionality of locks. If you comment out lines 12, 25, 26, and 39 (lock and unlock), you will notice the threads run at the same time. 
-If you leave them uncommented, they finish their cout loops atomically. 
+Source code in testLockBetter.cpp.
+This test shows functionality of locks, including their lock and unlock functions. It demonstrates the same code, first without locks and then with locks. Each thread simply prints their ID's and some numbers. The first printouts - without locks - clearly show less organization, while once locks are included the printouts print neatly. 
 
 ### ./broadcasttest
 Source code in broadcasttest.cpp.
-This test shows the functionality of the condvar broadcast function. It simply creates 10 threads that call wait before an 11th thread calls broadcast, which causes the first 
-10 threads to finish one after the other, before finally returning to the 11th thread and completing. 
+This test shows the functionality of the condvar broadcast() function. It simply creates 10 threads that call wait before an 11th thread calls broadcast, which causes the first 
+10 threads to finish one after the other, before finally returning to the 11th thread and completing. Each thread simply prints a static int that gets incremented over time.
 
 ### ./uthread-sync-demo-solution
 Source code given in main.cpp.
-This is the given demo file, and shows functionality of Lock, as well as Broadcast wait and signal. As described, it has certain threads that produce input into a bounded buffer
-and certain threads that consume said input. The synchronicity is to make sure that none of the buffer invariants are violated; we see that the program can run for an indefinite 
-amount of time, which means that everything is working. 
+This is the given demo file, and shows functionalities of Lock, as well as Condvar wait() and signal(). As described, it has certain threads that produce input into a bounded buffer and certain threads that consume said input. The synchronicity is to make sure that none of the buffer invariants are violated; we see that the program can run for an indefinite amount of time, which means that everything is working. 
+
+### ./spintest
+Source code given in testSpinBetter.cpp.
+Testing spinlocks is a little pointless as it relates to the uthread library, but the file tests the functionalities of a SpinLock. Given uthread, the test is very similar to locktest, demonstrating the same code with spinlocks and without spinlocks. Each thread simply prints their ID's and some numbers. The first printouts - without locks - clearly show less organization, while once locks are included the printouts print neatly. 
+
+### ./priotest
+Tests priority inversion; see description below.
 
 # Performance Evaluation
-The performance evaluations and write-ups for **Lock vs SpinLock** and **Synchronous vs Asynchronous I/O** can be found in the file writeup.pdf.
+The performance evaluations, tests, and write-ups for **Lock vs SpinLock** and **Synchronous vs Asynchronous I/O** can be found in the file writeup.pdf.
 
 ## Priority Inversion:
 ### Implementation
