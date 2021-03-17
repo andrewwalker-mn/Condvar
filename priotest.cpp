@@ -35,6 +35,7 @@ void* low_tester(void *arg) {
 
 void* high_tester(void *arg) {
   test_lock.lock();
+  uthread_increase_priority(running->getId());
   for (int i=0; i<20000000; i++) {
     if (i%100000 == 0) {
       // cout << i/100000 << " ";
@@ -73,7 +74,6 @@ int main(int argc, char *argv[]) {
 
   int low = uthread_create(low_tester, nullptr);
   int high = uthread_create(high_tester, nullptr);
-  uthread_increase_priority(high);
   int norm = uthread_create(tester, nullptr);
 
   // int *tester_threads = new int[3];
@@ -87,7 +87,6 @@ int main(int argc, char *argv[]) {
   uthread_join(low, nullptr);
   uthread_join(high, nullptr);
   uthread_join(norm, nullptr);
-  cout << "got here" << endl;
   // for (int i = 0; i < 3; i++) {
   //   int result = uthread_join(tester_threads[i], nullptr);
   //   if (result < 0) {
