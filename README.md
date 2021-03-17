@@ -1,4 +1,4 @@
-Names: David Ma (maxxx818) and Andrew Walker (walk0655)
+**Names: David Ma (maxxx818) and Andrew Walker (walk0655)**
 
 # Running and Testing the Code:
 A simple make command compiles everything, as does 'make alltests'. From there, specific tests are specified below.
