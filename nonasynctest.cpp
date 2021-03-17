@@ -53,7 +53,7 @@ void * writes(void * arg) {
   for (int i=0; i<6; i++) {
     cout << "in writes" << endl;
     
-    ssize_t ret = async_write(fd, &write_from[0], length, 0);
+        ssize_t ret = fwrite(&write_from[0], 1, length, file2);
   }
   fclose(file2);
   return nullptr;
