@@ -3,7 +3,7 @@ CFLAGS = -g -lrt --std=c++14
 DEPS = TCB.h uthread.h uthread_private.h Lock.h CondVar.h SpinLock.h async_io.h
 OBJ = TCB.o uthread.o Lock.o CondVar.o SpinLock.o async_io.o
 MAIN_OBJ = main.o
-TESTLOCK = TCB.o uthread.o Lock.o testLock.o
+TESTLOCK = TCB.o uthread.o Lock.o testLockBetter.o
 BROADCAST = broadcasttest.o
 ASYNC = asynctest.o
 NONASYNC = nonasynctest.o
