@@ -1,12 +1,9 @@
 **Names: David Ma (maxxx818) and Andrew Walker (walk0655)**
 
 # Running and Testing the Code:
-A simple make command compiles everything, as does 'make alltests'. From there, specific tests are specified below.
-
-We have 3 tests: locktest, broadcasttest, and the provided uthread-sync-demo-solution.
+A simple make command compiles everything, as does 'make alltests'. From there, specific tests are specified below. Functionality tests are described here, while performance tests are described in writeup.pdf.
 
 # Functionality Tests:
-Performance tests are described further down in the README.
 
 ### ./locktest
 Source code in testLockBetter.cpp.
@@ -32,7 +29,6 @@ Tests our priority inversion solution; see description below.
 Source code given in testAsyncBetter.cpp. Tests Asynchronous I/O, specifically the functions async_read() and async_write(). It runs three threads: a reading thread, a writing thread, and a normal thread. The reading and writing threads respectively call async_read() and async_write() and run first, and then the normal one prints numbers. The reading and writing threads show printouts after reading and writing is finished, and we can see that said printouts appear after the normal thread has already gotten some work done. Because the writing thread is writing more, it finishes after the normal thread has gotten more work done.
 
 # Performance Evaluation
-The performance evaluations, tests, and write-ups for **Lock vs SpinLock** and **Synchronous vs Asynchronous I/O** can be found in the file writeup.pdf.
 
 ## Priority Inversion:
 ### Implementation
