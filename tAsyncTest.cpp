@@ -13,20 +13,21 @@
 using namespace std;
 
 #define UTHREAD_TIME_QUANTUM 10000
-void* tester(void *arg) {
-  for (int i=0; i<5000000; i++) {
-    if (i%100000 == 0) {
-      cout << i/100000 << " ";
-    }
-    else
-    {
-      double j = pow(i,3.0);
-      j += j-pow(i,.7);
-    }
-  }
-  cout << endl;
-  return nullptr;
-}
+
+// void* tester(void *arg) {
+  // for (int i=0; i<5000000; i++) {
+    // if (i%100000 == 0) {
+      // cout << i/100000 << " ";
+    // }
+    // else
+    // {
+      // double j = pow(i,3.0);
+      // j += j-pow(i,.7);
+    // }
+  // }
+  // cout << endl;
+  // return nullptr;
+// }
 
 void * reads(void * arg) {
   FILE * file1 = fopen("infile.txt", "r");
@@ -69,11 +70,11 @@ int main(int argc, char*argv[]) {
     char buf[3];
     sprintf(buf, "%d", i);
     int thread2 = uthread_create(writes, (void *)strcat(out,buf));
-    int thread3 = uthread_create(tester, nullptr);
+    // int thread3 = uthread_create(tester, nullptr);
 
     uthread_join(thread1, nullptr);
     uthread_join(thread2, nullptr);
-    uthread_join(thread3, nullptr);
+    // uthread_join(thread3, nullptr);
   }
 
   return 0;
