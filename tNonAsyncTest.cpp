@@ -71,7 +71,7 @@ int main(int argc, char*argv[]) {
 
   for (int i=0; i<20; i++) {
     // int thread1 = uthread_create(reads, nullptr);
-    char out[100] = "outfile";
+    char out[100] = "outfiles/outfile";
     char buf[3];
     sprintf(buf, "%d", i);
     int thread2 = uthread_create(writes, (void *)strcat(out,buf));

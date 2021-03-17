@@ -45,10 +45,10 @@ void * reads(void * arg) {
 }
 
 void * writes(void * arg) {
-  remove("outfile.txt");
-  ofstream file {"outfile.txt"};
+  remove((char *)arg);
+  ofstream file {(char *)arg};
 
-  FILE * file2 = fopen("outfile.txt", "w");
+  FILE * file2 = fopen((char *)arg, "w");
   int fd = fileno(file2);
 
   std::string write_from(10000000, '*');
@@ -70,7 +70,7 @@ int main(int argc, char*argv[]) {
   }
   for (int i=0; i<20; i++) {
     // int thread1 = uthread_create(reads, nullptr);
-    char out[100] = "outfile";
+    char out[100] = "outfiles/outfile";
     char buf[3];
     sprintf(buf, "%d", i);
     int thread2 = uthread_create(writes, (void *)strcat(out,buf));
