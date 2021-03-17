@@ -13,3 +13,5 @@ controltest
 sControlTest
 sLockTest
 sSpinTest
+tAsyncTest
+tNonAsyncTest
